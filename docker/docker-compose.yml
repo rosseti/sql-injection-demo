@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  injection-app:
+    build:
+        context: ./php-fpm
+    volumes:
+      - ../src/:/app
+      - ./php-fpm/php.ini:/usr/local/etc/php/php.ini
+
+
+  injection-nginx:
+    build:
+        context: ./nginx
+    volumes:
+      - ../src/:/app
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/fastcgi.conf:/etc/nginx/fastcgi.conf
+      - ./nginx/sites/:/etc/nginx/sites-available
+      - ./nginx/conf.d/:/etc/nginx/conf.d
+      - ./nginx/snippets/:/etc/nginx/snippets
+    ports:
+      - "8080:80"
+    
+
+  injection-database:
+    container_name: database
+    env_file:
+      - ./.env
+    volumes:
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ${VOLUME_LOCAL_DB}:/var/lib/mysql/
+    image: mysql:8.0
+    command: mysqld --bind-address=0.0.0.0 --skip-ssl --ssl=off --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    ports:
+      - "3306:3306"
+    
